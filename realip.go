@@ -78,7 +78,9 @@ func FromRequest(r *http.Request) string {
 			return address
 		}
 	}
-
+	if isPrivate {
+		return "private"
+	}
 	// If nothing succeed, return X-Real-IP
 	return xRealIP
 }
