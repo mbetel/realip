@@ -66,10 +66,13 @@ func FromRequest(r *http.Request) string {
 		} else {
 			remoteIP = r.RemoteAddr
 		}
-
+		isPrivate, err := isPrivateAddress(remoteIP)
+		if isPrivate && err == nil {
+			return "private"
+		}
 		return remoteIP
 	}
-
+	var isPrivate bool
 	// Check list of IP in X-Forwarded-For and return the first global address
 	for _, address := range strings.Split(xForwardedFor, ",") {
 		address = strings.TrimSpace(address)
